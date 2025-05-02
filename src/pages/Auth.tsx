@@ -49,7 +49,7 @@ const Auth: React.FC = () => {
 
         try {
             // 1. Запрос нонса с бэкенда
-            const response = await axios.post('/api/auth/getNonce', {
+            const response = await axios.post('http://92.246.143.167:3000/auth/nonce', {
                 address: address
             });
 
@@ -60,15 +60,15 @@ const Auth: React.FC = () => {
             const signature = await signMessageAsync({ message: messageToSign });
 
             // 3. Отправка сигнатуры на бэкенд
-            const authResponse = await axios.post('/api/auth/web3', {
+            const authResponse = await axios.post('http://92.246.143.167:3000/auth/evm', {
                 address: address,
                 signature: signature,
                 message: messageToSign
             });
 
             // 4. Проверяем успешность аутентификации
-            if (authResponse.data.success) {
-                const jwtToken: string = authResponse.data.token;
+            if (authResponse.data.refreshToken) {
+                const jwtToken: string = authResponse.data.refreshToken;
                 setAuth(jwtToken, address);
                 navigate('/'); // Перенаправляем на главную после успешной авторизации
             } else {
