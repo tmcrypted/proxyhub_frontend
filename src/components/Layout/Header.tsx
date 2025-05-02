@@ -3,7 +3,7 @@ import { useAuthStore } from '../../store/authStore'
 import { useDisconnect } from 'wagmi'
 import axios from 'axios'
 import './layout.scss'; // Импорт стилей
-import proxyhub from '../../assets/proxyhub.png'
+// import proxyhub from '../../assets/proxyhub.png'
 
 const Header = () => {
     const { isAuthenticated, logout } = useAuthStore()
