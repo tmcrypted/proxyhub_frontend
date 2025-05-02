@@ -1,0 +1,42 @@
+$primary-color: #ffffff;
+$secondary-color: #f0f0f0;
+$background-color: #2e2e2e;
+$text-color: #ffffff;
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: $background-color;
+    color: $text-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: $primary-color;
+}
+
+button {
+    background-color: $secondary-color;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken($secondary-color, 10%);
+    }
+}
+
+a {
+    text-decoration: none; // Убираем подчеркивание у ссылок
+    color: $primary-color; // Цвет ссылок
+}
+
+a:hover {}
