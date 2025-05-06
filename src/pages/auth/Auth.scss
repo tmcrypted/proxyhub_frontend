@@ -41,22 +41,26 @@
 .auth-method h2 {
     margin-bottom: 15px;
     font-size: 1.2rem;
+    color: #ffffff;
 }
 
 .auth-button {
     width: 100%;
     padding: 12px;
     border-radius: 6px;
-    background-color: #3498db;
     color: white;
     border: none;
     cursor: pointer;
     font-weight: 500;
     transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .auth-button:hover:not(:disabled) {
-    background-color: #2980b9;
+    opacity: 0.9;
 }
 
 .auth-button:disabled {
@@ -65,12 +69,18 @@
     opacity: 0.7;
 }
 
-.wallet-button {
-    background-color: #d19920;
+.google-button {
+    background-color: #4285F4;
+    &:hover:not(:disabled) {
+        background-color: #357ABD;
+    }
 }
 
-.wallet-button:hover:not(:disabled) {
-    background-color: #ffca1c;
+.wallet-button {
+    background-color: #d19920;
+    &:hover:not(:disabled) {
+        background-color: #ffca1c;
+    }
 }
 
 .email-button:disabled {

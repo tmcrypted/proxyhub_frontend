@@ -1,11 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout/Layout'
-import Home from './pages/Home'
-import Proxies from './pages/Proxies'
-import Auth from './pages/Auth'
-// import Dashboard from './pages/Dashboard'
-// import Pricing from './pages/Pricing'
-// import { useAuthStore } from './store/authStore'
+import Layout from '../components/Layout/Layout'
+import { useAuthStore } from '../store/authStore'
+import Auth from './auth/Auth'
+import GoogleCallback from './auth/GoogleCallback'
+import Home from './home/Home'
+import Proxies from './proxies/Proxies'
 
 function App() {
   return (
@@ -14,6 +13,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="proxies" element={<Proxies />} />
         <Route path="auth" element={<Auth />} />
+        <Route path="auth/google/callback" element={<GoogleCallback />} />
         {/* <Route
             path="dashboard"
             element={
@@ -28,14 +28,14 @@ function App() {
 }
 
 // Компонент для защищенных маршрутов
-// const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-//   const { isAuthenticated } = useAuthStore()
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useAuthStore()
 
-//   // if (!isAuthenticated) {
-//   //   return <Navigate to="/" />
-//   // }
+  // if (!isAuthenticated) {
+  //   return <Navigate to="/" />
+  // }
 
-//   return <>{children}</>
-// }
+  return <>{children}</>
+}
 
 export default App

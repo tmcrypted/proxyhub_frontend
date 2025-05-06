@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
 import { useDisconnect } from 'wagmi'
-import axios from 'axios'
+import { authRequests } from '../../api/requests'
 import './layout.scss'; // Импорт стилей
-// import proxyhub from '../../assets/proxyhub.png'
 
 const Header = () => {
     const { isAuthenticated, logout } = useAuthStore()
@@ -13,7 +12,7 @@ const Header = () => {
     const handleLogout = async () => {
         try {
             // Отправляем запрос на выход на сервер для инвалидации HTTP-only cookie
-            await axios.post('/api/auth/logout')
+            await authRequests.logout()
 
             // После успешного ответа от сервера
             disconnect() // Отключаем кошелек

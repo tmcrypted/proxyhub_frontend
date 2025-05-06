@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccount, useSignMessage } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAuthStore } from '../store/authStore';
-import axios from 'axios';
+import { useAuthStore } from '../../store/authStore';
+import { api } from '../../config/api';
 import './Auth.scss';
+import { authRequests } from '../../api/requests';
 
 const Auth: React.FC = () => {
     const navigate = useNavigate();
@@ -31,13 +32,11 @@ const Auth: React.FC = () => {
     }, [isConnected, address]);
 
     const handleWalletAuth = async () => {
-        // Проверяем адрес подключенного кошелька
         if (!address) {
             setAuthError('Кошелек подключен, но адрес недоступен');
             return;
         }
 
-        // Используем ref для предотвращения параллельных запросов
         if (authInProgressRef.current) {
             console.log('Процесс аутентификации уже запущен');
             return;
@@ -49,38 +48,48 @@ const Auth: React.FC = () => {
 
         try {
             // 1. Запрос нонса с бэкенда
-            const response = await axios.post('http://92.246.143.167:3000/auth/nonce', {
+            const response = await api.post('/auth/nonce', {
                 address: address
             });
 
             // Получаем сообщение для подписи из ответа
-            const messageToSign: string = response.data.message;
+            const messageToSign: string = response.message;
 
             // 2. Подписание сообщения - здесь появится стандартный UI ожидания подписи
             const signature = await signMessageAsync({ message: messageToSign });
 
             // 3. Отправка сигнатуры на бэкенд
-            const authResponse = await axios.post('http://92.246.143.167:3000/auth/evm', {
+            const authResponse = await api.post('/auth/evm', {
                 address: address,
                 signature: signature,
                 message: messageToSign
             });
 
             // 4. Проверяем успешность аутентификации
-            if (authResponse.data.refreshToken) {
-                const jwtToken: string = authResponse.data.refreshToken;
+            if (authResponse.accessToken) {
+                const jwtToken: string = authResponse.refreshToken;
                 setAuth(jwtToken, address);
                 navigate('/'); // Перенаправляем на главную после успешной авторизации
             } else {
-                setAuthError(authResponse.data.message || 'Ошибка аутентификации');
+                setAuthError(authResponse.message || 'Ошибка аутентификации');
             }
         } catch (error) {
             console.error('Ошибка в процессе аутентификации:', error);
             setAuthError('Произошла ошибка при авторизации');
         } finally {
             setIsAuthenticating(false);
-            // Сбрасываем флаг процесса аутентификации
             authInProgressRef.current = false;
+        }
+    };
+
+    const handleGoogleAuth = async () => {
+        try {
+            const response = await authRequests.initiateGoogleAuth();
+            // Redirect to backend's Google auth endpoint
+            window.location.href = response.url;
+        } catch (error) {
+            console.error('Google auth error:', error);
+            setAuthError('Google authentication failed');
         }
     };
 
@@ -109,6 +118,16 @@ const Auth: React.FC = () => {
                                 )}
                             </div>
                         )}
+                    </div>
+
+                    <div className="auth-method">
+                        <h2>Google Account</h2>
+                        <button 
+                            className="auth-button google-button"
+                            onClick={handleGoogleAuth}
+                        >
+                            Sign in with Google
+                        </button>
                     </div>
 
                     <div className="auth-method disabled">
