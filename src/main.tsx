@@ -4,11 +4,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
-import { config } from './config/wagmi'
+import { config } from './config/wagmi.ts'
 
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.scss'
-import App from './App.tsx'
+import App from './pages/App.tsx'
 
 const queryClient = new QueryClient()
 
