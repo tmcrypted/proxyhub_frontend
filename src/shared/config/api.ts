@@ -23,7 +23,7 @@ const getHeaders = () => {
 };
 
 export const api = {
-    get: async (endpoint: string) => {
+    get: async <T = any>(endpoint: string) => {
         const response = await fetch(`${API_URL}${endpoint}`, {
             method: 'GET',
             headers: getHeaders(),
@@ -35,36 +35,36 @@ export const api = {
         //     return;
         // }
         
-        return response.json();
+        return response.json() as Promise<T>;
     },
 
-    post: async (endpoint: string, data: any) => {
+    post: async <T = any>(endpoint: string, data: any) => {
         const response = await fetch(`${API_URL}${endpoint}`, {
             method: 'POST',
             headers: getHeaders(),
             credentials: 'include',
             body: JSON.stringify(data),
         });
-        return response.json();
+        return response.json() as Promise<T>;
     },
 
-    put: async (endpoint: string, data: any) => {
+    put: async <T = any>(endpoint: string, data: any) => {
         const response = await fetch(`${API_URL}${endpoint}`, {
             method: 'PUT',
             headers: getHeaders(),
             credentials: 'include',
             body: JSON.stringify(data),
         });
-        return response.json();
+        return response.json() as Promise<T>;
     },
 
-    delete: async (endpoint: string) => {
+    delete: async <T = any>(endpoint: string) => {
         const response = await fetch(`${API_URL}${endpoint}`, {
             method: 'DELETE',
             headers: getHeaders(),
             credentials: 'include',
         });
-        return response.json();
+        return response.json() as Promise<T>;
     },
 };
 

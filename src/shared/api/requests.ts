@@ -1,23 +1,34 @@
 import { api } from '../config/api';
 
+interface AuthResponse {
+    accessToken: string;
+    refreshToken: string;
+    message?: string;
+}
+
 // Auth requests
 export const authRequests = {
     // Wallet authentication
     getNonce: async (address: string) => {
-        return api.post('/auth/nonce', { address });
+        return api.post<{ message: string }>('/auth/nonce', { address });
     },
 
     authenticateWallet: async (address: string, signature: string, message: string) => {
-        return api.post('/auth/evm', { address, signature, message });
+        return api.post<AuthResponse>('/auth/evm', { address, signature, message });
+    },
+
+    // Email/Password authentication
+    loginWithPassword: async (email: string, password: string) => {
+        return api.post<AuthResponse>('/auth/email/login', { email, password });
     },
 
     // Google authentication
     initiateGoogleAuth: async () => {
-        return api.get('/auth/google');
+        return api.get<{ url: string }>('/auth/google');
     },
 
     handleGoogleCallback: async (code: string) => {
-        return api.get(`/auth/google/callback?code=${code}`);
+        return api.get<AuthResponse>(`/auth/google/callback?code=${code}`);
     },
 
     // Logout

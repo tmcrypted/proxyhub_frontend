@@ -1,7 +1,17 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
-import api from '../../config/api';
+import { useAuthStore } from './store/authStore';
+import { api } from '../../shared/config/api';
+import { jwtDecode } from 'jwt-decode';
+
+// JWT payload interface
+interface JwtPayload {
+    sub: number;
+    address?: string;
+    email?: string;
+    role: string;
+    exp: number;
+}
 
 const GoogleCallback: React.FC = () => {
     const navigate = useNavigate();
@@ -22,7 +32,19 @@ const GoogleCallback: React.FC = () => {
                 const response = await api.get(`/auth/google/callback?code=${code}`);
 
                 if (response.accessToken) {
-                    setAuth(response.accessToken);
+                    // Use accessToken for JWT decoding and authentication
+                    const jwtToken: string = response.accessToken;
+                    
+                    try {
+                        // Decode the JWT to get the role and other information
+                        const decoded = jwtDecode<JwtPayload>(jwtToken);
+                        console.log('Decoded token in Google auth:', decoded);
+                        setAuth(jwtToken, decoded.address, decoded.email, decoded.role);
+                    } catch (e) {
+                        console.error('Error decoding JWT:', e);
+                        setAuth(jwtToken);
+                    }
+                    
                     navigate('/');
                 } else {
                     throw new Error('No access token received');
