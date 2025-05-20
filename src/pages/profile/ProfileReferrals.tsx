@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Referral {
     id: string;
@@ -10,6 +11,8 @@ interface Referral {
 }
 
 const ProfileReferrals = () => {
+    const { t } = useTranslation()
+
     // Sample referral data - replace with API call
     const [referrals, setReferrals] = useState<Referral[]>([
         {
@@ -38,72 +41,82 @@ const ProfileReferrals = () => {
     // Copy referral link to clipboard
     const copyReferralLink = () => {
         navigator.clipboard.writeText(referralLink);
-        alert('Referral link copied to clipboard!');
+        alert(t('profile.referrals.linkCopied'));
     };
 
     // Copy referral code to clipboard
     const copyReferralCode = () => {
         navigator.clipboard.writeText(referralCode);
-        alert('Referral code copied to clipboard!');
+        alert(t('profile.referrals.codeCopied'));
     };
 
     return (
         <div>
-            <h3 className="text-xl font-semibold mb-6 pb-2 border-b">Referral Program</h3>
+            <h3 className="text-xl font-semibold mb-6 pb-2 border-b">{t('profile.referrals.title')}</h3>
             
             {/* Referral summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Earned</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('profile.referrals.totalEarned')}</p>
                     <p className="text-3xl font-bold">${totalEarned.toFixed(2)}</p>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-700/30 p-6 rounded-lg">
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Commission Rate</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('profile.referrals.commissionRate')}</p>
                     <p className="text-3xl font-bold">{commissionRate}%</p>
                 </div>
             </div>
             
             {/* Referral link section */}
             <div className="mb-8">
-                <h4 className="font-medium mb-4">Your Referral Link</h4>
-                <div className="flex flex-col md:flex-row gap-4 mb-6">
-                    <div className="flex-1 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-md overflow-hidden truncate">
-                        {referralLink}
-                    </div>
-                    <button 
+                <h4 className="font-medium mb-4">{t('profile.referrals.link.title')}</h4>
+                <div className="flex gap-2">
+                    <input
+                        type="text"
+                        value={referralLink}
+                        readOnly
+                        className="flex-1 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md"
+                    />
+                    <button
                         onClick={copyReferralLink}
-                        className="px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
                     >
-                        Copy Link
-                    </button>
-                </div>
-                
-                <div className="flex flex-col md:flex-row gap-4">
-                    <div className="flex-1 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-md overflow-hidden truncate">
-                        Referral Code: {referralCode}
-                    </div>
-                    <button 
-                        onClick={copyReferralCode}
-                        className="px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-                    >
-                        Copy Code
+                        {t('profile.referrals.copy')}
                     </button>
                 </div>
             </div>
             
-            {/* Referred users section */}
+            {/* Referral code section */}
+            <div className="mb-8">
+                <h4 className="font-medium mb-4">{t('profile.referrals.code.title')}</h4>
+                <div className="flex gap-2">
+                    <input
+                        type="text"
+                        value={referralCode}
+                        readOnly
+                        className="flex-1 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md"
+                    />
+                    <button
+                        onClick={copyReferralCode}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+                    >
+                        {t('profile.referrals.copy')}
+                    </button>
+                </div>
+            </div>
+            
+            {/* Referred users table */}
             <div>
-                <h4 className="font-medium mb-4">Referred Users</h4>
+                <h4 className="font-medium mb-4">{t('profile.referrals.users.title')}</h4>
                 
                 {referrals.length > 0 ? (
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
                                 <tr className="text-left text-sm bg-gray-50 dark:bg-gray-700/50">
-                                    <th className="px-4 py-3 rounded-tl-lg">User</th>
-                                    <th className="px-4 py-3">Join Date</th>
-                                    <th className="px-4 py-3">Purchases</th>
-                                    <th className="px-4 py-3 rounded-tr-lg">Commission</th>
+                                    <th className="px-4 py-3 rounded-tl-lg">{t('profile.referrals.users.table.user')}</th>
+                                    <th className="px-4 py-3">{t('profile.referrals.users.table.joinDate')}</th>
+                                    <th className="px-4 py-3">{t('profile.referrals.users.table.purchases')}</th>
+                                    <th className="px-4 py-3 rounded-tr-lg">{t('profile.referrals.users.table.commission')}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -128,9 +141,9 @@ const ProfileReferrals = () => {
                     </div>
                 ) : (
                     <div className="text-center py-8 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-                        <p className="text-gray-500 dark:text-gray-400">No referrals yet</p>
+                        <p className="text-gray-500 dark:text-gray-400">{t('profile.referrals.users.empty')}</p>
                         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                            Share your referral link to start earning commissions!
+                            {t('profile.referrals.users.emptyDescription')}
                         </p>
                     </div>
                 )}

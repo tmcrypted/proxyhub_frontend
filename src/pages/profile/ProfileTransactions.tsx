@@ -1,15 +1,18 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Transaction {
     id: string;
     date: string;
-    type: 'topup' | 'withdraw' | 'purchase';
+    type: 'topup' | 'purchase' | 'withdraw';
     amount: number;
     status: 'completed' | 'pending' | 'failed';
     description: string;
 }
 
 const ProfileTransactions = () => {
+    const { t } = useTranslation()
+
     // Sample transactions data - replace with API call
     const [transactions, setTransactions] = useState<Transaction[]>([
         {
@@ -52,15 +55,15 @@ const ProfileTransactions = () => {
         }
     };
 
-    // Function to format status badge
+    // Function to get status badge
     const getStatusBadge = (status: Transaction['status']) => {
         switch (status) {
             case 'completed':
-                return <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded-full">Completed</span>;
+                return <span className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded-full">{t('profile.transactions.status.completed')}</span>;
             case 'pending':
-                return <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 rounded-full">Pending</span>;
+                return <span className="px-2 py-1 text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 rounded-full">{t('profile.transactions.status.pending')}</span>;
             case 'failed':
-                return <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-full">Failed</span>;
+                return <span className="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 rounded-full">{t('profile.transactions.status.failed')}</span>;
             default:
                 return null;
         }
@@ -68,17 +71,17 @@ const ProfileTransactions = () => {
 
     return (
         <div>
-            <h3 className="text-xl font-semibold mb-6 pb-2 border-b">Transactions</h3>
+            <h3 className="text-xl font-semibold mb-6 pb-2 border-b">{t('profile.transactions.title')}</h3>
             
             {transactions.length > 0 ? (
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
                             <tr className="text-left text-sm bg-gray-50 dark:bg-gray-700/50">
-                                <th className="px-4 py-3 rounded-tl-lg">Date</th>
-                                <th className="px-4 py-3">Description</th>
-                                <th className="px-4 py-3">Amount</th>
-                                <th className="px-4 py-3 rounded-tr-lg">Status</th>
+                                <th className="px-4 py-3 rounded-tl-lg">{t('profile.transactions.table.date')}</th>
+                                <th className="px-4 py-3">{t('profile.transactions.table.description')}</th>
+                                <th className="px-4 py-3">{t('profile.transactions.table.amount')}</th>
+                                <th className="px-4 py-3 rounded-tr-lg">{t('profile.transactions.table.status')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -101,7 +104,7 @@ const ProfileTransactions = () => {
                 </div>
             ) : (
                 <div className="text-center py-8 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-                    <p className="text-gray-500 dark:text-gray-400">No transactions found</p>
+                    <p className="text-gray-500 dark:text-gray-400">{t('profile.transactions.empty')}</p>
                 </div>
             )}
         </div>

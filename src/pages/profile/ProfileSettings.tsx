@@ -1,9 +1,14 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useAuthStore } from '@/stores/authStore'
 
 const ProfileSettings = () => {
+    const { t } = useTranslation()
+    const { user } = useAuthStore()
+
     // User settings form state
     const [formData, setFormData] = useState({
-        email: 'user@example.com',
+        email: user?.email || '',
         notifyOnPurchase: true,
         notifyOnExpiration: true,
         notifyOnPromotion: false,
@@ -37,19 +42,19 @@ const ProfileSettings = () => {
         e.preventDefault();
         console.log('Saving settings:', formData);
         // Implement API call to save user settings
-        alert('Settings saved successfully!');
+        alert(t('profile.settings.saved'));
     };
 
     return (
         <div>
-            <h3 className="text-xl font-semibold mb-6 pb-2 border-b">Account Settings</h3>
+            <h3 className="text-xl font-semibold mb-6 pb-2 border-b">{t('profile.settings.title')}</h3>
             
             <form onSubmit={handleSubmit}>
                 {/* Email settings */}
                 <div className="mb-8">
-                    <h4 className="font-medium mb-4">Email</h4>
+                    <h4 className="font-medium mb-4">{t('profile.settings.email.title')}</h4>
                     <div className="mb-4">
-                        <label htmlFor="email" className="block text-sm mb-1">Email Address</label>
+                        <label htmlFor="email" className="block text-sm mb-1">{t('profile.settings.email.label')}</label>
                         <input
                             type="email"
                             id="email"
@@ -63,7 +68,7 @@ const ProfileSettings = () => {
                 
                 {/* Notifications settings */}
                 <div className="mb-8">
-                    <h4 className="font-medium mb-4">Notifications</h4>
+                    <h4 className="font-medium mb-4">{t('profile.settings.notifications.title')}</h4>
                     
                     <div className="space-y-3">
                         <div className="flex items-center">
@@ -75,7 +80,7 @@ const ProfileSettings = () => {
                                 onChange={handleInputChange}
                                 className="mr-3 h-4 w-4"
                             />
-                            <label htmlFor="notifyOnPurchase">Notify on purchase</label>
+                            <label htmlFor="notifyOnPurchase">{t('profile.settings.notifications.purchase')}</label>
                         </div>
                         
                         <div className="flex items-center">
@@ -87,7 +92,7 @@ const ProfileSettings = () => {
                                 onChange={handleInputChange}
                                 className="mr-3 h-4 w-4"
                             />
-                            <label htmlFor="notifyOnExpiration">Notify before proxy expiration</label>
+                            <label htmlFor="notifyOnExpiration">{t('profile.settings.notifications.expiration')}</label>
                         </div>
                         
                         <div className="flex items-center">
@@ -99,14 +104,14 @@ const ProfileSettings = () => {
                                 onChange={handleInputChange}
                                 className="mr-3 h-4 w-4"
                             />
-                            <label htmlFor="notifyOnPromotion">Notify about promotions and special offers</label>
+                            <label htmlFor="notifyOnPromotion">{t('profile.settings.notifications.promotions')}</label>
                         </div>
                     </div>
                 </div>
                 
                 {/* Telegram settings */}
                 <div className="mb-8">
-                    <h4 className="font-medium mb-4">Telegram Notifications</h4>
+                    <h4 className="font-medium mb-4">{t('profile.settings.telegram.title')}</h4>
                     
                     <div className="mb-4">
                         <div className="flex items-center mb-3">
@@ -118,12 +123,12 @@ const ProfileSettings = () => {
                                 onChange={handleInputChange}
                                 className="mr-3 h-4 w-4"
                             />
-                            <label htmlFor="telegramNotifications">Enable Telegram notifications</label>
+                            <label htmlFor="telegramNotifications">{t('profile.settings.telegram.enable')}</label>
                         </div>
                         
                         {formData.telegramNotifications && (
                             <div>
-                                <label htmlFor="telegramUsername" className="block text-sm mb-1">Telegram Username</label>
+                                <label htmlFor="telegramUsername" className="block text-sm mb-1">{t('profile.settings.telegram.username')}</label>
                                 <input
                                     type="text"
                                     id="telegramUsername"
@@ -140,11 +145,11 @@ const ProfileSettings = () => {
                 
                 {/* Preferences settings */}
                 <div className="mb-8">
-                    <h4 className="font-medium mb-4">Preferences</h4>
+                    <h4 className="font-medium mb-4">{t('profile.settings.preferences.title')}</h4>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="language" className="block text-sm mb-1">Language</label>
+                            <label htmlFor="language" className="block text-sm mb-1">{t('profile.settings.preferences.language')}</label>
                             <select
                                 id="language"
                                 name="language"
@@ -152,13 +157,13 @@ const ProfileSettings = () => {
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md"
                             >
-                                <option value="en">English</option>
-                                <option value="ru">Russian</option>
+                                <option value="en">{t('profile.settings.preferences.languages.english')}</option>
+                                <option value="ru">{t('profile.settings.preferences.languages.russian')}</option>
                             </select>
                         </div>
                         
                         <div>
-                            <label htmlFor="theme" className="block text-sm mb-1">Theme</label>
+                            <label htmlFor="theme" className="block text-sm mb-1">{t('profile.settings.preferences.theme')}</label>
                             <select
                                 id="theme"
                                 name="theme"
@@ -166,9 +171,9 @@ const ProfileSettings = () => {
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md"
                             >
-                                <option value="system">System Default</option>
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
+                                <option value="system">{t('profile.settings.preferences.themes.system')}</option>
+                                <option value="light">{t('profile.settings.preferences.themes.light')}</option>
+                                <option value="dark">{t('profile.settings.preferences.themes.dark')}</option>
                             </select>
                         </div>
                     </div>
@@ -180,7 +185,7 @@ const ProfileSettings = () => {
                         type="submit"
                         className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
                     >
-                        Save Settings
+                        {t('profile.settings.save')}
                     </button>
                 </div>
             </form>
