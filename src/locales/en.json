@@ -65,6 +65,17 @@
                 "withdraw": "Withdraw"
             }
         },
+        "topup": {
+            "title": "Top Up Balance",
+            "amount": "Amount (USD)",
+            "paymentMethod": "Payment Method",
+            "submit": "Proceed to Payment",
+            "processing": "Processing...",
+            "instructions": {
+                "title": "Payment Instructions",
+                "description": "After clicking 'Proceed to Payment', you will be provided with an address to complete your payment."
+            }
+        },
         "transactions": {
             "title": "Transaction History",
             "empty": "No transactions found",

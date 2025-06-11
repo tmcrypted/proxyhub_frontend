@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../../stores/authStore'
 import { api } from '../../lib/api'
+import ProfileTopup from './ProfileTopup'
 
 const ProfileBalance = () => {
     const { t } = useTranslation()
@@ -9,6 +10,7 @@ const ProfileBalance = () => {
     const [balance, setBalance] = useState<number | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [isTopupOpen, setIsTopupOpen] = useState(false)
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -37,8 +39,7 @@ const ProfileBalance = () => {
 
     // Handle top up button click
     const handleTopUp = () => {
-        console.log('Top up clicked')
-        // Implement top up logic
+        setIsTopupOpen(true)
     }
 
     // Handle withdrawal button click 
@@ -91,6 +92,26 @@ const ProfileBalance = () => {
                 
                 {/* You can replace the empty state with actual transaction list when available */}
             </div>
+
+            {/* Top-up Dialog */}
+            {isTopupOpen && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-4">
+                        <div className="p-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-semibold">{t('profile.topup.title')}</h3>
+                                <button
+                                    onClick={() => setIsTopupOpen(false)}
+                                    className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <ProfileTopup />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
