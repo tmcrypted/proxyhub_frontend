@@ -8,8 +8,6 @@ interface User {
   email?: string
   address?: string
   role?: string
-  isHaveNowpaymentsAccount?: boolean
-  nowpaymentsId?: string
 }
 
 interface AuthState {
@@ -37,8 +35,7 @@ interface JwtPayload {
   email?: string
   role: string
   exp: number
-  isHaveNowpaymentsAccount?: boolean
-  nowpaymentsId?: string
+
 }
 
 // Create store with persist middleware
@@ -65,8 +62,7 @@ export const useAuthStore = create<AuthState>()(
             email: userData?.email || decoded.email,
             address: userData?.address || decoded.address,
             role: userData?.role || decoded.role,
-            isHaveNowpaymentsAccount: userData?.isHaveNowpaymentsAccount || decoded.isHaveNowpaymentsAccount,
-            nowpaymentsId: userData?.nowpaymentsId || decoded.nowpaymentsId,
+
           }
 
           // Update state

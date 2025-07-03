@@ -1,8 +1,20 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
+// Получение токена из auth-storage
+function getToken(): string | null {
+    try {
+        const authStorage = localStorage.getItem('auth-storage')
+        if (!authStorage) return null
+        const parsed = JSON.parse(authStorage)
+        return parsed?.state?.token || null
+    } catch {
+        return null
+    }
+}
+
 // Helper function to handle API requests
 async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const token = localStorage.getItem('token')
+    const token = getToken()
     const headers = {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -39,10 +51,10 @@ export const authRequests = {
 // User requests
 export const userRequests = {
     getProfile: async () => {
-        return apiRequest('/user/profile')
+        return apiRequest('/users/profile')
     },
     updateProfile: async (data: Record<string, unknown>) => {
-        return apiRequest('/user/profile', {
+        return apiRequest('/users/profile', {
             method: 'PUT',
             body: JSON.stringify(data),
         })

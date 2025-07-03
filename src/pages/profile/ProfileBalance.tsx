@@ -1,41 +1,59 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuthStore } from '../../stores/authStore'
+import { userRequests } from '../../services/api/requests'
 import { api } from '../../lib/api'
 import ProfileTopup from './ProfileTopup'
 
+// Интерфейс для профиля пользователя
+interface UserProfile {
+    id: number
+    role: string
+    name: string | null
+    email: string | null
+    evmAddress: string
+    authProvider: string
+    googleAuthId: string | null
+    password: string | null
+    isHaveNowpaymentsAccount: boolean
+    nowpaymentsId?: string
+    isVerified: boolean
+    createdAt: string
+    updatedAt: string
+}
+
 const ProfileBalance = () => {
     const { t } = useTranslation()
-    const { user } = useAuthStore()
+    const [user, setUser] = useState<UserProfile | null>(null)
     const [balance, setBalance] = useState<number | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [isTopupOpen, setIsTopupOpen] = useState(false)
 
     useEffect(() => {
-        const fetchBalance = async () => {
-            if (!user?.nowpaymentsId) {
-                setBalance(null)
-                setIsLoading(false)
-                return
-            }
-
+        const fetchUserAndBalance = async () => {
+            setIsLoading(true)
             try {
-                setIsLoading(true)
-                const response = await api.get(`/payments/user-balance/${user.nowpaymentsId}`)
-                setBalance(response.balance)
+                const profile = await userRequests.getProfile() as UserProfile
+                setUser(profile)
+                const npId = profile.nowpaymentsId
+                if (!npId) {
+                    setBalance(null)
+                    setError('nowpaymentsId не найден')
+                    return
+                }
+                const response = await api.get(`/payments/user-balance/${npId}`)
+                setBalance(response)
                 setError(null)
             } catch (err) {
-                console.error('Failed to fetch balance:', err)
-                setError('Failed to load balance')
+                console.error('Failed to fetch user or balance:', err)
+                setError('Ошибка загрузки баланса или пользователя')
                 setBalance(null)
             } finally {
                 setIsLoading(false)
             }
         }
-
-        fetchBalance()
-    }, [user?.nowpaymentsId])
+        fetchUserAndBalance()
+    }, [])
 
     // Handle top up button click
     const handleTopUp = () => {
@@ -94,7 +112,7 @@ const ProfileBalance = () => {
             </div>
 
             {/* Top-up Dialog */}
-            {isTopupOpen && (
+            {isTopupOpen && user?.nowpaymentsId && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-4">
                         <div className="p-6">
@@ -107,7 +125,7 @@ const ProfileBalance = () => {
                                     ✕
                                 </button>
                             </div>
-                            <ProfileTopup />
+                            <ProfileTopup nowpaymentsId={user.nowpaymentsId} />
                         </div>
                     </div>
                 </div>

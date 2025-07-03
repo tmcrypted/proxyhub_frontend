@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuthStore } from '../../stores/authStore'
 import { api } from '../../lib/api'
 import {
     Select,
@@ -35,9 +34,12 @@ interface NowPaymentsFullCurrenciesListResponse {
 const LOGO_BASE_URL = 'https://nowpayments.io/'
 const FALLBACK_LOGO = '/logo.svg'
 
-const ProfileTopup = () => {
+interface ProfileTopupProps {
+    nowpaymentsId: string
+}
+
+const ProfileTopup = ({ nowpaymentsId }: ProfileTopupProps) => {
     const { t } = useTranslation()
-    const { user } = useAuthStore()
     const [amount, setAmount] = useState<string>('')
     const [selectedCurrency, setSelectedCurrency] = useState<string>('')
     const [isLoading, setIsLoading] = useState(false)
@@ -49,15 +51,12 @@ const ProfileTopup = () => {
         const fetchCurrencies = async () => {
             try {
                 setIsLoadingCurrencies(true)
-                // 1. Получаем доступные тикеры
                 const availableRes = await api.get('/payments/available-currencies')
                 const availableTickers = new Set(
                     (availableRes.selectedCurrencies || []).map((t: string) => t.toLowerCase())
                 )
-                // 2. Получаем все валюты
                 const response = await api.get('/payments/full-currencies-list')
                 const data = response as NowPaymentsFullCurrenciesListResponse
-                // 3. Фильтруем только те, что есть в списке доступных тикеров
                 const enabledCurrencies = data.currencies
                     .filter(
                         (currency: NowPaymentsCurrency) =>
@@ -69,7 +68,6 @@ const ProfileTopup = () => {
                     setSelectedCurrency(enabledCurrencies[0].code)
                 }
             } catch (err) {
-                console.error('Failed to fetch currencies:', err)
                 setError('Failed to load payment methods')
             } finally {
                 setIsLoadingCurrencies(false)
@@ -80,8 +78,8 @@ const ProfileTopup = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (!user?.nowpaymentsId) {
-            setError('User not authenticated')
+        if (!nowpaymentsId) {
+            setError('User not authenticated, go to support at telegram @tmcrypted')
             return
         }
         const amountNum = parseFloat(amount)
@@ -93,13 +91,12 @@ const ProfileTopup = () => {
             setIsLoading(true)
             setError(null)
             const response = await api.post('/payments/create', {
-                userId: user.nowpaymentsId,
+                userId: nowpaymentsId,
                 amount: amountNum,
                 currency: selectedCurrency
             })
             console.log('Payment created:', response)
         } catch (err) {
-            console.error('Failed to create payment:', err)
             setError('Failed to create payment')
         } finally {
             setIsLoading(false)
