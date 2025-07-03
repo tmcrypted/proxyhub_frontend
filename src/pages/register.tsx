@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../components/ui/dialog'
+import { config } from '../config'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -28,7 +29,7 @@ export default function Register() {
       setIsLoading(true)
       setError(null)
 
-      const response = await fetch('http://localhost:3030/auth/email/register', {
+      const response = await fetch(`${config.api.baseUrl}/auth/email/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

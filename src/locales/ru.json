@@ -46,9 +46,9 @@
             "balance": "Баланс",
             "transactions": "Транзакции",
             "orders": "Заказы",
+            "proxies": "Прокси",
             "referrals": "Рефералы",
             "settings": "Настройки",
-            "proxies": "Прокси",
             "branches": "Филиалы",
             "users": "Пользователи",
             "pricing": "Цены",
@@ -106,11 +106,14 @@
             "status": {
                 "active": "Активен",
                 "expired": "Истек",
-                "cancelled": "Отменен"
+                "cancelled": "Отменен",
+                "pending": "Ожидает оплаты"
             },
             "actions": {
                 "renew": "Продлить",
-                "buyProxies": "Купить прокси"
+                "buyProxies": "Купить прокси",
+                "viewProxies": "Посмотреть прокси",
+                "continuePayment": "Продолжить платеж"
             }
         },
         "referrals": {
@@ -137,6 +140,38 @@
                     "commission": "Комиссия"
                 }
             }
+        },
+        "proxies": {
+            "title": "Ваши прокси",
+            "empty": "Прокси не найдены",
+            "filterByOrder": "Фильтр по заказу",
+            "allOrders": "Все заказы",
+            "showCredentials": "Показать данные",
+            "hideCredentials": "Скрыть данные",
+            "ip": "IP",
+            "port": "Порт",
+            "login": "Логин",
+            "password": "Пароль",
+            "fullFormat": "Полный формат",
+            "copy": "Копировать",
+            "expiresAt": "Истекает",
+            "order": "Заказ",
+            "buyProxies": "Купить прокси",
+            "selected": "выбрано",
+            "copySelected": "Копировать выбранные",
+            "export": "Экспорт",
+            "search": "Поиск",
+            "searchPlaceholder": "Поиск по IP, стране...",
+            "status": "Статус",
+            "allStatuses": "Все статусы",
+            "country": "Страна",
+            "endpoint": "Эндпоинт",
+            "expires": "Истекает",
+            "actions": "Действия",
+            "showing": "Показано",
+            "of": "из",
+            "previous": "Назад",
+            "next": "Далее"
         },
         "settings": {
             "title": "Настройки аккаунта",

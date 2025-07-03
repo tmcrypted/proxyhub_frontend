@@ -1,6 +1,8 @@
-import { createContext, useContext, ReactNode } from 'react'
+import { createContext, useContext } from 'react'
+import type { ReactNode } from 'react'
 import { useAccount, useDisconnect } from 'wagmi'
 import { useAuthStore } from '../stores/authStore'
+import { useAuthInitialization } from '../hooks/useAuthInitialization'
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -15,6 +17,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { address } = useAccount()
     const { disconnect } = useDisconnect()
     const { isAuthenticated, email, logout: storeLogout } = useAuthStore()
+    
+    // Initialize auth state from localStorage
+    useAuthInitialization()
 
     const logout = () => {
         disconnect()

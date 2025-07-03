@@ -1,14 +1,24 @@
-import { Gift } from 'lucide-react'
+import { Gift, X } from 'lucide-react'
 
 interface DiscountBannerProps {
     discount: number
     code: string
     expiresAt?: string
+    onClose?: () => void
 }
 
-const DiscountBanner = ({ discount, code, expiresAt }: DiscountBannerProps) => {
+const DiscountBanner = ({ discount, code, expiresAt, onClose }: DiscountBannerProps) => {
     return (
-        <div className="py-2 px-4 text-white">
+        <div className="py-2 px-4 text-white relative">
+            {onClose && (
+                <button
+                    onClick={onClose}
+                    className="absolute top-2 right-2 p-1 hover:bg-white/10 rounded-md transition-colors"
+                    aria-label="Close banner"
+                >
+                    <X className="w-4 h-4" />
+                </button>
+            )}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Gift className="w-5 h-5" />

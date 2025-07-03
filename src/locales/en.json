@@ -46,9 +46,9 @@
             "balance": "Balance",
             "transactions": "Transactions",
             "orders": "Orders",
+            "proxies": "Proxies",
             "referrals": "Referrals",
             "settings": "Settings",
-            "proxies": "Proxies",
             "branches": "Branches",
             "users": "Users",
             "pricing": "Pricing",
@@ -106,11 +106,14 @@
             "status": {
                 "active": "Active",
                 "expired": "Expired",
-                "cancelled": "Cancelled"
+                "cancelled": "Cancelled",
+                "pending": "Pending Payment"
             },
             "actions": {
                 "renew": "Renew",
-                "buyProxies": "Buy Proxies"
+                "buyProxies": "Buy Proxies",
+                "viewProxies": "View Proxies",
+                "continuePayment": "Continue Payment"
             }
         },
         "referrals": {
@@ -137,6 +140,38 @@
                     "commission": "Commission"
                 }
             }
+        },
+        "proxies": {
+            "title": "Your Proxies",
+            "empty": "No proxies found",
+            "filterByOrder": "Filter by order",
+            "allOrders": "All orders",
+            "showCredentials": "Show credentials",
+            "hideCredentials": "Hide credentials",
+            "ip": "IP",
+            "port": "Port",
+            "login": "Login",
+            "password": "Password",
+            "fullFormat": "Full format",
+            "copy": "Copy",
+            "expiresAt": "Expires at",
+            "order": "Order",
+            "buyProxies": "Buy Proxies",
+            "selected": "selected",
+            "copySelected": "Copy Selected",
+            "export": "Export",
+            "search": "Search",
+            "searchPlaceholder": "Search by IP, country...",
+            "status": "Status",
+            "allStatuses": "All statuses",
+            "country": "Country",
+            "endpoint": "Endpoint",
+            "expires": "Expires",
+            "actions": "Actions",
+            "showing": "Showing",
+            "of": "of",
+            "previous": "Previous",
+            "next": "Next"
         },
         "settings": {
             "title": "Account Settings",

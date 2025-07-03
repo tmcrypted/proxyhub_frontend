@@ -9,16 +9,59 @@ import { Input } from '../components/ui/input'
 import { Label } from '../components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card'
 import { ConnectButton } from '../components/ui/connect-button'
+import { config } from '../config'
 
 export default function Auth() {
   const navigate = useNavigate()
   const { address, isConnected } = useAccount()
   const { signMessageAsync } = useSignMessage()
-  const { setAuth, isAuthenticated, isLoading, error, setLoading, setError } = useAuthStore()
+  const { setAuth, setCookieAuth, isAuthenticated, isLoading, error, setLoading, setError } = useAuthStore()
   const authInProgressRef = useRef(false)
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [verificationMessage, setVerificationMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+
+  // Handle verification redirect
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const verified = urlParams.get('verified')
+    const message = urlParams.get('message')
+
+    if (verified && message) {
+      if (verified === 'true') {
+        setVerificationMessage({ type: 'success', text: decodeURIComponent(message) })
+        // Check if user is automatically logged in via cookies
+        checkAuthStatus()
+      } else {
+        setVerificationMessage({ type: 'error', text: decodeURIComponent(message) })
+      }
+
+      // Clean up URL parameters
+      const newUrl = window.location.pathname
+      window.history.replaceState({}, '', newUrl)
+    }
+  }, [])
+
+  const checkAuthStatus = async () => {
+    try {
+      const response = await fetch(`${config.api.baseUrl}/auth/status`, {
+        method: 'GET',
+        credentials: 'include', // Include cookies
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.isAuthenticated && data.user) {
+          // User is authenticated via cookies, update auth store
+          setCookieAuth(data.user)
+          // The useEffect below will redirect to home
+        }
+      }
+    } catch (error) {
+      console.error('Failed to check auth status:', error)
+    }
+  }
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -93,7 +136,7 @@ export default function Auth() {
     e.preventDefault()
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:3030/auth/email/login', {
+              const response = await fetch(`${config.api.baseUrl}/auth/email/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -201,6 +244,16 @@ export default function Auth() {
               {t('auth.google.signIn')}
             </Button>
           </div>
+
+          {verificationMessage && (
+            <div className={`p-4 rounded text-center ${
+              verificationMessage.type === 'success' 
+                ? 'bg-green-50 text-green-700 border border-green-200' 
+                : 'bg-destructive/10 text-destructive'
+            }`}>
+              {verificationMessage.text}
+            </div>
+          )}
 
           {error && (
             <div className="p-4 rounded bg-destructive/10 text-destructive text-center">
