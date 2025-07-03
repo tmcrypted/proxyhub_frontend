@@ -7,30 +7,37 @@ import { useTranslation } from 'react-i18next'
 import { User } from 'lucide-react'
 import DiscountBanner from './DiscountBanner'
 import useIsAdmin from '@/hooks/useIsAdmin'
+import { useState } from 'react'
 
 export default function Header() {
   const { t } = useTranslation()
   const { isAuthenticated } = useAuthStore()
   const isAdmin = useIsAdmin()
+  const [showDiscountBanner, setShowDiscountBanner] = useState(true)
+
+  const handleCloseBanner = () => {
+    setShowDiscountBanner(false)
+  }
 
   return (
     <>
       {/* Discount Banner - only show for non-admin users */}
-      {!isAdmin && (
+      {/* {!isAdmin && showDiscountBanner && (
         <div className="w-full bg-gradient-to-r from-blue-500 to-purple-600">
           <div className="max-w-7xl mx-auto">
             <DiscountBanner
               discount={20}
               code="WELCOME20"
               expiresAt={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()}
+              onClose={handleCloseBanner}
             />
           </div>
         </div>
-      )}
+      )} */}
       <header className="p-2 flex gap-2 bg-background text-foreground justify-between">
         <nav className="flex flex-row">
           <div className="px-2 font-bold">
-            <Link to="/demo/form/simple">Proxy Hub</Link>
+            <Link to="/buy">Proxy Hub</Link>
           </div>
         </nav>
         <div className="flex items-center gap-2">

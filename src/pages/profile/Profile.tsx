@@ -2,7 +2,7 @@ import { Link, Outlet, useNavigate, useRouter, useLocation } from '@tanstack/rea
 import { useAuthStore } from '../../stores/authStore'
 import { useDisconnect } from 'wagmi'
 import { authRequests } from '../../services/api/requests'
-import { Wallet, Clock, ShoppingCart, Users, Settings, LogOut, Server, Database, User, DollarSign, Tag } from 'lucide-react'
+import { Wallet, Clock, ShoppingCart, Users, Settings, LogOut, Server, Database, User, DollarSign, Tag, Wifi } from 'lucide-react'
 import useIsAdmin from '@/hooks/useIsAdmin'
 import { useTranslation } from 'react-i18next'
 
@@ -34,6 +34,7 @@ const Profile = () => {
         { name: t('profile.navigation.balance'), icon: <Wallet className="w-5 h-5" />, path: '/profile' },
         { name: t('profile.navigation.transactions'), icon: <Clock className="w-5 h-5" />, path: '/profile/transactions' },
         { name: t('profile.navigation.orders'), icon: <ShoppingCart className="w-5 h-5" />, path: '/profile/orders' },
+        { name: t('profile.navigation.proxies'), icon: <Wifi className="w-5 h-5" />, path: '/profile/proxies' },
         { name: t('profile.navigation.referrals'), icon: <Users className="w-5 h-5" />, path: '/profile/referrals' },
         { name: t('profile.navigation.settings'), icon: <Settings className="w-5 h-5" />, path: '/profile/settings' }
     ]

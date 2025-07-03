@@ -8,17 +8,18 @@ import {
   createRouter,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import FormSimpleDemo from "./routes/demo.form.simple.tsx";
-import FormAddressDemo from "./routes/demo.form.address.tsx";
-import StoreDemo from "./routes/demo.store.tsx";
-import TanStackQueryDemo from "./routes/demo.tanstack-query.tsx";
+import { BuyForm } from "./pages/buy.tsx";
+import { config as appConfig } from "./config";
+
 import Auth from "./pages/auth";
 import Register from "./pages/register";
 import AuthCallback from "./pages/auth-callback";
+import EmailVerification from "./pages/email-verification";
 import Profile from "./pages/profile/Profile";
 import ProfileBalance from "./pages/profile/ProfileBalance";
 import ProfileTransactions from "./pages/profile/ProfileTransactions";
 import ProfileOrders from "./pages/profile/ProfileOrders";
+import ProfileProxies from "./pages/profile/ProfileProxies";
 import ProfileReferrals from "./pages/profile/ProfileReferrals";
 import ProfileSettings from "./pages/profile/ProfileSettings";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -55,7 +56,7 @@ const rootRoute = createRootRoute({
         socialLinks={[
           {
             icon: <Send className="h-5 w-5" />,
-            href: "https://example.com",
+            href: appConfig.external.exampleUrl,
             label: "Telegram",
           },
         ]}
@@ -97,6 +98,12 @@ const registerRoute = createRoute({
   component: Register,
 });
 
+const verifyEmailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/verify-email",
+  component: EmailVerification,
+});
+
 const authCallbackRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/auth/callback",
@@ -131,6 +138,20 @@ const profileOrdersRoute = createRoute({
   getParentRoute: () => profileRoute,
   path: "/orders",
   component: ProfileOrders,
+});
+
+const profileProxiesRoute = createRoute({
+  getParentRoute: () => profileRoute,
+  path: "/proxies",
+  component: ProfileProxies,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      orderId: Number(search.orderId) || undefined,
+      page: Number(search.page) || 1,
+      search: typeof search.search === 'string' ? search.search : '',
+      status: typeof search.status === 'string' ? search.status : 'all',
+    }
+  },
 });
 
 const profileReferralsRoute = createRoute({
@@ -184,18 +205,17 @@ const profileAdminPromoCodesRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  FormSimpleDemo(rootRoute),
-  FormAddressDemo(rootRoute),
-  StoreDemo(rootRoute),
-  TanStackQueryDemo(rootRoute),
+  BuyForm(rootRoute),
   authRoute,
   registerRoute,
+  verifyEmailRoute,
   authCallbackRoute,
   googleCallbackRoute,
   profileRoute.addChildren([
     profileBalanceRoute,
     profileTransactionsRoute,
     profileOrdersRoute,
+    profileProxiesRoute,
     profileReferralsRoute,
     profileSettingsRoute,
     profileAdminProxiesRoute,
@@ -232,7 +252,7 @@ if (rootElement && !rootElement.innerHTML) {
       <WagmiProvider config={config}>
         <TanStackQueryProvider.Provider>
           <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-            <RainbowKitProvider theme={darkTheme()} chains={[mainnet]}>
+            <RainbowKitProvider theme={darkTheme()}>
               <AuthProvider>
                 <RouterProvider router={router} />
               </AuthProvider>

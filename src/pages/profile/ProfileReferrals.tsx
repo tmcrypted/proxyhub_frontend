@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { urlHelpers } from '../../config'
 
 interface Referral {
     id: string;
@@ -33,7 +34,7 @@ const ProfileReferrals = () => {
         }
     ]);
 
-    const [referralLink, setReferralLink] = useState('https://proxyhub.com/ref/user123');
+    const [referralLink, setReferralLink] = useState(urlHelpers.getReferralUrl('user123'));
     const [referralCode, setReferralCode] = useState('USER123');
     const [totalEarned, setTotalEarned] = useState(20);
     const [commissionRate, setCommissionRate] = useState(10);
