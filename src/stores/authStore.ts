@@ -35,6 +35,7 @@ interface JwtPayload {
   email?: string
   role: string
   exp: number
+
 }
 
 // Create store with persist middleware
@@ -61,6 +62,7 @@ export const useAuthStore = create<AuthState>()(
             email: userData?.email || decoded.email,
             address: userData?.address || decoded.address,
             role: userData?.role || decoded.role,
+
           }
 
           // Update state
@@ -116,6 +118,7 @@ export const useAuthStore = create<AuthState>()(
         user: state.user,
         token: state.token,
         email: state.email,
+
       }),
     }
   )
