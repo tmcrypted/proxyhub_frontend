@@ -1,6 +1,11 @@
 {
     "welcome": "Welcome",
     "language": "Language",
+    "admin": {
+        "accessDenied": "Access Denied",
+        "adminRightsRequired": "You need administrator rights to access this page.",
+        "backToProfile": "Back to Profile"
+    },
     "auth": {
         "title": "Authentication",
         "description": "Choose your preferred authentication method",
@@ -30,10 +35,7 @@
             "connected": "Wallet Connected",
             "authenticating": "Authenticating..."
         },
-        "google": {
-            "title": "Google Sign In",
-            "signIn": "Sign in with Google"
-        },
+
         "logout": "Sign Out"
     },
     "profile": {

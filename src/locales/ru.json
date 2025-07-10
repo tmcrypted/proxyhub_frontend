@@ -1,6 +1,11 @@
 {
     "welcome": "Добро пожаловать",
     "language": "Язык",
+    "admin": {
+        "accessDenied": "Доступ запрещен",
+        "adminRightsRequired": "Для доступа к этой странице необходимы права администратора.",
+        "backToProfile": "Вернуться в профиль"
+    },
     "auth": {
         "title": "Аутентификация",
         "description": "Выберите предпочтительный способ входа",
@@ -30,10 +35,7 @@
             "connected": "Кошелек подключен",
             "authenticating": "Аутентификация..."
         },
-        "google": {
-            "title": "Вход через Google",
-            "signIn": "Войти через Google"
-        },
+
         "logout": "Выйти"
     },
     "profile": {

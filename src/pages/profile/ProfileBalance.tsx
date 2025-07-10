@@ -4,7 +4,6 @@ import { userRequests } from '../../services/api/requests'
 import { api } from '../../lib/api'
 import ProfileTopup from './ProfileTopup'
 
-// Интерфейс для профиля пользователя
 interface UserProfile {
     id: number
     role: string
@@ -12,7 +11,6 @@ interface UserProfile {
     email: string | null
     evmAddress: string
     authProvider: string
-    googleAuthId: string | null
     password: string | null
     isHaveNowpaymentsAccount: boolean
     nowpaymentsId?: string
@@ -55,15 +53,13 @@ const ProfileBalance = () => {
         fetchUserAndBalance()
     }, [])
 
-    // Handle top up button click
+
     const handleTopUp = () => {
         setIsTopupOpen(true)
     }
 
-    // Handle withdrawal button click 
     const handleWithdraw = () => {
         console.log('Withdraw clicked')
-        // Implement withdrawal logic
     }
 
     return (
