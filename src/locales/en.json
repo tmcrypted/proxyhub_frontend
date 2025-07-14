@@ -1,6 +1,13 @@
 {
     "welcome": "Welcome",
     "language": "Language",
+    "header": {
+        "admin": "ADMIN",
+        "balance": "Balance",
+        "loading": "Loading...",
+        "recentActivity": "Recent Activity",
+        "viewAllTransactions": "View All Transactions"
+    },
     "admin": {
         "accessDenied": "Access Denied",
         "adminRightsRequired": "You need administrator rights to access this page.",
@@ -41,6 +48,8 @@
     "profile": {
         "title": "Your Account",
         "adminTitle": "Admin Dashboard",
+        "adminSettings": "Admin Settings",
+        "adminPanel": "Admin Panel",
         "loginRequired": "Please login to view your profile",
         "loggedInAs": "Logged in as:",
         "administrator": "Administrator",
@@ -51,6 +60,7 @@
             "proxies": "Proxies",
             "referrals": "Referrals",
             "settings": "Settings",
+            "adminPanel": "Admin Panel",
             "branches": "Branches",
             "users": "Users",
             "pricing": "Pricing",
@@ -175,8 +185,15 @@
             "previous": "Previous",
             "next": "Next"
         },
+        "accountSettings": "Account Settings",
+        "accountSettingsDescription": "Manage your account information and preferences",
+        "securitySettings": "Security Settings",
+        "securitySettingsDescription": "Configure security settings and authentication methods",
         "settings": {
             "title": "Account Settings",
+            "general": "General Settings",
+            "user": "User Settings",
+            "admin": "Admin Settings",
             "saved": "Settings saved successfully!",
             "email": {
                 "title": "Email",

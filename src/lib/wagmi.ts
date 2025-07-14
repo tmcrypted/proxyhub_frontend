@@ -14,4 +14,6 @@ export const config = getDefaultConfig({
     transports: {
         [mainnet.id]: http(urlHelpers.getAlchemyUrl(import.meta.env.VITE_ALCHEMY_API_KEY || ''))
     },
+    // Add configuration to handle provider conflicts more gracefully
+    ssr: false, // Disable SSR to avoid conflicts
 }) 

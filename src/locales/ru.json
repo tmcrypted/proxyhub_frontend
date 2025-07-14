@@ -1,6 +1,13 @@
 {
     "welcome": "Добро пожаловать",
     "language": "Язык",
+    "header": {
+        "admin": "АДМИН",
+        "balance": "Баланс",
+        "loading": "Загрузка...",
+        "recentActivity": "Последние операции",
+        "viewAllTransactions": "Посмотреть все транзакции"
+    },
     "admin": {
         "accessDenied": "Доступ запрещен",
         "adminRightsRequired": "Для доступа к этой странице необходимы права администратора.",
@@ -41,6 +48,8 @@
     "profile": {
         "title": "Ваш аккаунт",
         "adminTitle": "Панель администратора",
+        "adminSettings": "Настройки администратора",
+        "adminPanel": "Панель администратора",
         "loginRequired": "Пожалуйста, войдите для просмотра профиля",
         "loggedInAs": "Вы вошли как:",
         "administrator": "Администратор",
@@ -51,6 +60,7 @@
             "proxies": "Прокси",
             "referrals": "Рефералы",
             "settings": "Настройки",
+            "adminPanel": "Панель администратора",
             "branches": "Филиалы",
             "users": "Пользователи",
             "pricing": "Цены",
@@ -175,8 +185,15 @@
             "previous": "Назад",
             "next": "Далее"
         },
+        "accountSettings": "Настройки аккаунта",
+        "accountSettingsDescription": "Управление информацией аккаунта и предпочтениями",
+        "securitySettings": "Настройки безопасности",
+        "securitySettingsDescription": "Настройка параметров безопасности и методов аутентификации",
         "settings": {
             "title": "Настройки аккаунта",
+            "general": "Общие настройки",
+            "user": "Настройки пользователя",
+            "admin": "Настройки администратора",
             "saved": "Настройки успешно сохранены!",
             "email": {
                 "title": "Email",

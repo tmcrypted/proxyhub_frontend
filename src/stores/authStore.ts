@@ -7,6 +7,8 @@ interface User {
   email?: string
   address?: string
   role?: string
+  isHaveNowpaymentsAccount?: boolean
+  nowpaymentsId?: string
 }
 
 interface AuthState {
@@ -36,7 +38,8 @@ interface JwtPayload {
   email?: string
   role: string
   exp: number
-
+  isHaveNowpaymentsAccount?: boolean
+  nowpaymentsId?: string
 }
 
 // Helper function to save state to localStorage

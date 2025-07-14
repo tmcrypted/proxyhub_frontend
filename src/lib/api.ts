@@ -67,6 +67,26 @@ export const api = {
     })
   },
 
+  patch(url: string, data: any) {
+    return this.request(url, {
+      method: 'PATCH',
+      body: JSON.stringify(data)
+    })
+  },
+
+  delete(url: string) {
+    return this.request(url, {
+      method: 'DELETE'
+    })
+  },
+
+  deleteWithBody(url: string, data: any) {
+    return this.request(url, {
+      method: 'DELETE',
+      body: JSON.stringify(data)
+    })
+  },
+
   // Orders API
   orders: {
     create: (data: { countryId: number; proxyCount: number; promoCode?: string }) => {
