@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { Button } from '../components/ui/button'
-import { config } from '../config'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../shared/components/ui/card'
+import { Button } from '../shared/components/ui/button'
+import { config } from '../shared/config'
 
 export default function EmailVerification() {
   const navigate = useNavigate()

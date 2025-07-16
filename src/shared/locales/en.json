@@ -1,0 +1,230 @@
+{
+    "welcome": "Welcome",
+    "language": "Language",
+    "header": {
+        "admin": "ADMIN",
+        "balance": "Balance",
+        "loading": "Loading...",
+        "recentActivity": "Recent Activity",
+        "viewAllTransactions": "View All Transactions"
+    },
+    "admin": {
+        "accessDenied": "Access Denied",
+        "adminRightsRequired": "You need administrator rights to access this page.",
+        "backToProfile": "Back to Profile"
+    },
+    "auth": {
+        "title": "Authentication",
+        "description": "Choose your preferred authentication method",
+        "or": "or",
+        "login": {
+            "title": "Login",
+            "description": "Enter your credentials to access your account",
+            "email": "Email",
+            "password": "Password",
+            "submit": "Sign In",
+            "register": "Create Account",
+            "button": "Sign In"
+        },
+        "register": {
+            "title": "Create Account",
+            "description": "Enter your details to create a new account",
+            "name": "Full Name",
+            "email": "Email",
+            "submit": "Create Account",
+            "backToLogin": "Back to Login",
+            "verificationTitle": "Verification Email Sent",
+            "verificationDescription": "Please check your email for a verification link to complete your registration."
+        },
+        "wallet": {
+            "title": "Connect Wallet",
+            "connect": "Connect Wallet",
+            "connected": "Wallet Connected",
+            "authenticating": "Authenticating..."
+        },
+
+        "logout": "Sign Out"
+    },
+    "profile": {
+        "title": "Your Account",
+        "adminTitle": "Admin Dashboard",
+        "adminSettings": "Admin Settings",
+        "adminPanel": "Admin Panel",
+        "loginRequired": "Please login to view your profile",
+        "loggedInAs": "Logged in as:",
+        "administrator": "Administrator",
+        "navigation": {
+            "balance": "Balance",
+            "transactions": "Transactions",
+            "orders": "Orders",
+            "proxies": "Proxies",
+            "referrals": "Referrals",
+            "settings": "Settings",
+            "adminPanel": "Admin Panel",
+            "branches": "Branches",
+            "users": "Users",
+            "pricing": "Pricing",
+            "promoCodes": "Promo Codes"
+        },
+        "logout": "Logout",
+        "balance": {
+            "title": "Balance",
+            "current": "Current Balance",
+            "recentActivity": "Recent Activity",
+            "empty": "No recent balance activity",
+            "actions": {
+                "topUp": "Top up Balance",
+                "withdraw": "Withdraw"
+            }
+        },
+        "topup": {
+            "title": "Top Up Balance",
+            "amount": "Amount (USD)",
+            "paymentMethod": "Payment Method",
+            "submit": "Proceed to Payment",
+            "processing": "Processing...",
+            "instructions": {
+                "title": "Payment Instructions",
+                "description": "After clicking 'Proceed to Payment', you will be provided with an address to complete your payment."
+            }
+        },
+        "transactions": {
+            "title": "Transaction History",
+            "empty": "No transactions found",
+            "table": {
+                "date": "Date",
+                "description": "Description",
+                "amount": "Amount",
+                "status": "Status"
+            },
+            "status": {
+                "completed": "Completed",
+                "pending": "Pending",
+                "failed": "Failed"
+            }
+        },
+        "orders": {
+            "title": "Your Orders",
+            "empty": "No orders found",
+            "table": {
+                "orderId": "Order ID",
+                "date": "Date",
+                "proxies": "Proxies",
+                "country": "Country",
+                "amount": "Amount",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "status": {
+                "active": "Active",
+                "expired": "Expired",
+                "cancelled": "Cancelled",
+                "pending": "Pending Payment"
+            },
+            "actions": {
+                "renew": "Renew",
+                "buyProxies": "Buy Proxies",
+                "viewProxies": "View Proxies",
+                "continuePayment": "Continue Payment"
+            }
+        },
+        "referrals": {
+            "title": "Referral Program",
+            "totalEarned": "Total Earned",
+            "commissionRate": "Commission Rate",
+            "link": {
+                "title": "Your Referral Link"
+            },
+            "code": {
+                "title": "Your Referral Code"
+            },
+            "copy": "Copy",
+            "linkCopied": "Referral link copied to clipboard!",
+            "codeCopied": "Referral code copied to clipboard!",
+            "users": {
+                "title": "Referred Users",
+                "empty": "No referrals yet",
+                "emptyDescription": "Share your referral link to start earning commissions!",
+                "table": {
+                    "user": "User",
+                    "joinDate": "Join Date",
+                    "purchases": "Purchases",
+                    "commission": "Commission"
+                }
+            }
+        },
+        "proxies": {
+            "title": "Your Proxies",
+            "empty": "No proxies found",
+            "filterByOrder": "Filter by order",
+            "allOrders": "All orders",
+            "showCredentials": "Show credentials",
+            "hideCredentials": "Hide credentials",
+            "ip": "IP",
+            "port": "Port",
+            "login": "Login",
+            "password": "Password",
+            "fullFormat": "Full format",
+            "copy": "Copy",
+            "expiresAt": "Expires at",
+            "order": "Order",
+            "buyProxies": "Buy Proxies",
+            "selected": "selected",
+            "copySelected": "Copy Selected",
+            "export": "Export",
+            "search": "Search",
+            "searchPlaceholder": "Search by IP, country...",
+            "status": "Status",
+            "allStatuses": "All statuses",
+            "country": "Country",
+            "endpoint": "Endpoint",
+            "expires": "Expires",
+            "actions": "Actions",
+            "showing": "Showing",
+            "of": "of",
+            "previous": "Previous",
+            "next": "Next"
+        },
+        "accountSettings": "Account Settings",
+        "accountSettingsDescription": "Manage your account information and preferences",
+        "securitySettings": "Security Settings",
+        "securitySettingsDescription": "Configure security settings and authentication methods",
+        "settings": {
+            "title": "Account Settings",
+            "general": "General Settings",
+            "user": "User Settings",
+            "admin": "Admin Settings",
+            "saved": "Settings saved successfully!",
+            "email": {
+                "title": "Email",
+                "label": "Email Address"
+            },
+            "notifications": {
+                "title": "Notifications",
+                "purchase": "Notify on purchase",
+                "expiration": "Notify before proxy expiration",
+                "promotions": "Notify about promotions and special offers"
+            },
+            "telegram": {
+                "title": "Telegram Notifications",
+                "enable": "Enable Telegram notifications",
+                "username": "Telegram Username"
+            },
+            "preferences": {
+                "title": "Preferences",
+                "language": "Language",
+                "theme": "Theme",
+                "languages": {
+                    "english": "English",
+                    "russian": "Russian"
+                },
+                "themes": {
+                    "system": "System Default",
+                    "light": "Light",
+                    "dark": "Dark"
+                }
+            },
+            "save": "Save Settings"
+        }
+    }
+} 
