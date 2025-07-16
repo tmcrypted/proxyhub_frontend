@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { Settings as SettingsIcon } from 'lucide-react'
 
 interface GeneralSettingsProps {

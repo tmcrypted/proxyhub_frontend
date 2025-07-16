@@ -1,7 +1,7 @@
 import { createRoute, useNavigate } from "@tanstack/react-router";
 import { rootRoute } from "./root-route";
-import { AdminGuard } from "../../components/AdminGuard";
-import AuthGuard from "../../components/AuthGuard";
+import { AdminGuard } from "./AdminGuard";
+import AuthGuard from "./AuthGuard";
 import React from "react";
 
 import { AdminPanel } from "../../pages/admin/AdminPanel/AdminPanel";

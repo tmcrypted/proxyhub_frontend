@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { useUserBalance } from '@/hooks/useUserBalance'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/shared/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { Wallet, Plus, Minus, Clock } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import { useUserBalance } from '@/entities/profile/hooks/useProfileBalance'
 
 const UserBalance = () => {
     const { t } = useTranslation()
@@ -33,7 +33,7 @@ const UserBalance = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="text-3xl font-bold text-green-600 dark:text-green-400">
-                        ${balance?.toFixed(2) || '0.00'} USDC
+                        ${typeof balance === 'number' ? balance.toFixed(2) : '0.00'} USDC
                     </div>
                     <div className="flex gap-2 mt-4">
                         <Button asChild>

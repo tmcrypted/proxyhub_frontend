@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
+import { Button } from "@/shared/components/ui/button";
 import { Plus, Wifi, Search, Filter, Upload } from "lucide-react";
-import type { Proxy, CreateProxyData, UpdateProxyData } from "../model/types";
+import type {
+  Proxy,
+  CreateProxyData,
+  UpdateProxyData,
+  ProxyFilters,
+} from "../model/types";
 import { useProxyStore } from "../model/store";
 import {
   usePaginatedProxies,
@@ -18,58 +28,88 @@ import { ProxyFiltersComponent } from "./ProxyFilters.tsx";
 import { ProxyStats } from "./ProxyStats.tsx";
 import { ProxyPagination } from "./ProxyPagination.tsx";
 import { ProxyBatchImport } from "./ProxyBatchImport.tsx";
+import {
+  useCreateProxy,
+  useUpdateProxy,
+  useDeleteProxy,
+  useBulkUpdateProxies,
+  useBulkDeleteProxies,
+  useProxies,
+} from "../hooks/useProxies.ts";
 
 type TabType = "none" | "filters" | "batch-import" | "add-proxy" | "edit-proxy";
 
 const AdminProxyManagement = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<TabType>("none");
-  const [editingProxy, setEditingProxy] = useState<Proxy | null>(null);
-
-  // Store hooks
-  const {
-    fetchProxies,
-    createProxy,
-    updateProxy,
-    deleteProxy,
-    bulkUpdateProxies,
-    bulkDeleteProxies,
-    setFilters,
-  } = useProxyStore();
-  const proxies = usePaginatedProxies();
   const loading = useLoading();
-  const error = useError();
-  const filters = useFilters();
+  const [activeTab, setActiveTab] = useState<TabType>("none");
+
+  // const filters = useFilters();
+  const [filters, setFilters] = useState<ProxyFilters>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showForm, setShowForm] = useState(false);
+  const [editingProxy, setEditingProxy] = useState<Proxy | null>(null);
+  const [showBatchImport, setShowBatchImport] = useState(false);
+  const { data: proxies = [], isLoading, error, refetch } = useProxies(filters);
+
   const activeFiltersCount = useActiveFiltersCount();
 
-  useEffect(() => {
-    fetchProxies();
-  }, [fetchProxies]);
+  const createProxyMutation = useCreateProxy();
+  const updateProxyMutation = useUpdateProxy();
+  const deleteProxyMutation = useDeleteProxy();
+  const bulkUpdateMutation = useBulkUpdateProxies();
+  const bulkDeleteMutation = useBulkDeleteProxies();
 
-  const handleCreateProxy = async (data: CreateProxyData) => {
+  const handleCreateProxy = async (data: any) => {
     try {
-      await createProxy(data);
-      setActiveTab("none");
-    } catch (err) {
-      console.error("Error creating proxy:", err);
-      throw err;
+      await createProxyMutation.mutateAsync(data);
+      // setShowForm(false);
+      // Кэш автоматически инвалидируется!
+    } catch (error) {
+      console.error("Failed to create proxy:", error);
     }
   };
 
-  const handleUpdateProxy = async (id: number, data: UpdateProxyData) => {
+  const handleUpdateProxy = async (id: number, data: any) => {
     try {
-      await updateProxy(id, data);
-      setActiveTab("none");
+      await updateProxyMutation.mutateAsync({ id, data });
       setEditingProxy(null);
-    } catch (err) {
-      console.error("Error updating proxy:", err);
-      throw err;
+      // Кэш автоматически инвалидируется!
+    } catch (error) {
+      console.error("Failed to update proxy:", error);
     }
   };
 
   const handleDeleteProxy = async (id: number) => {
     if (!confirm("Are you sure you want to delete this proxy?")) return;
-    await deleteProxy(id);
+
+    try {
+      await deleteProxyMutation.mutateAsync(id);
+      // Кэш автоматически инвалидируется!
+    } catch (error) {
+      console.error("Failed to delete proxy:", error);
+    }
+  };
+
+  const handleBulkUpdate = async (ids: number[], updates: Partial<Proxy>) => {
+    try {
+      await bulkUpdateMutation.mutateAsync({ ids, updates });
+      // Кэш автоматически инвалидируется!
+    } catch (error) {
+      console.error("Failed to bulk update proxies:", error);
+    }
+  };
+
+  const handleBulkDelete = async (ids: number[]) => {
+    if (!confirm(`Are you sure you want to delete ${ids.length} proxies?`))
+      return;
+
+    try {
+      await bulkDeleteMutation.mutateAsync(ids);
+      // Кэш автоматически инвалидируется!
+    } catch (error) {
+      console.error("Failed to bulk delete proxies:", error);
+    }
   };
 
   const handleEditProxy = (proxy: Proxy) => {
@@ -87,6 +127,25 @@ const AdminProxyManagement = () => {
   };
 
   const isTabActive = (tab: TabType) => activeTab === tab;
+
+  if (error) {
+    return (
+      <div className="p-4">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <h3 className="text-red-800 dark:text-red-200 font-medium">
+            Error loading proxies
+          </h3>
+          <p className="text-red-600 dark:text-red-300 mt-1">{error.message}</p>
+          <button
+            onClick={() => refetch()}
+            className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (loading && proxies.length === 0) {
     return (
@@ -129,7 +188,6 @@ const AdminProxyManagement = () => {
           <CardContent>
             <div className="text-center py-8">
               <p className="text-red-500 dark:text-red-400 mb-4">{error}</p>
-              <Button onClick={() => fetchProxies()}>Try Again</Button>
             </div>
           </CardContent>
         </Card>
@@ -155,9 +213,13 @@ const AdminProxyManagement = () => {
             <Filter className="w-4 h-4 mr-2" />
             Filters
             {activeFiltersCount > 0 && (
-              <span className={`ml-2 bg-black dark:bg-white text-white dark:text-black text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium ${
-                isTabActive("filters") ? "ring-1 ring-white dark:ring-black" : ""
-              }`}>
+              <span
+                className={`ml-2 bg-black dark:bg-white text-white dark:text-black text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium ${
+                  isTabActive("filters")
+                    ? "ring-1 ring-white dark:ring-black"
+                    : ""
+                }`}
+              >
                 {activeFiltersCount}
               </span>
             )}
@@ -212,7 +274,10 @@ const AdminProxyManagement = () => {
               proxy={editingProxy}
               onSubmit={async (data: CreateProxyData | UpdateProxyData) => {
                 if (editingProxy) {
-                  await handleUpdateProxy(editingProxy.id, data as UpdateProxyData);
+                  await handleUpdateProxy(
+                    editingProxy.id,
+                    data as UpdateProxyData
+                  );
                 } else {
                   await handleCreateProxy(data as CreateProxyData);
                 }
@@ -235,8 +300,8 @@ const AdminProxyManagement = () => {
             proxies={proxies}
             onEdit={handleEditProxy}
             onDelete={handleDeleteProxy}
-            onBulkUpdate={bulkUpdateProxies}
-            onBulkDelete={bulkDeleteProxies}
+            onBulkUpdate={handleBulkUpdate}
+            onBulkDelete={handleBulkDelete}
           />
           <ProxyPagination />
         </CardContent>

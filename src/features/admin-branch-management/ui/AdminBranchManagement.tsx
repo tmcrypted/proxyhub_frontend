@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card.tsx";
+import { Button } from "@/shared/components/ui/button.tsx";
 import { Plus, GitBranch } from "lucide-react";
 import type { Branch, CreateBranchData, UpdateBranchData } from "../model/types";
 import { useBranchStore } from "../model/store";

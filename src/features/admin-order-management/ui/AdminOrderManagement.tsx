@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card.tsx";
 import { ShoppingCart } from "lucide-react";
 import type { Order, UpdateOrderData } from "../model/types";
 import { useOrderStore } from "../model/store";

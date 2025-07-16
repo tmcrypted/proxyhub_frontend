@@ -1,24 +1,26 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
-import { AuthProvider } from "../contexts/AuthContext";
-import { ThemeProvider } from "../contexts/theme-provider.tsx";
+import { ThemeProvider } from "@/shared/lib/theme-provider.tsx";
 import { WagmiProvider } from "wagmi";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { config } from "../lib/wagmi";
+import { config } from "../shared/lib/wagmi.ts";
 import { router } from "./router";
 
 // Import wallet provider conflict handling
-import "../lib/wallet-provider";
-import WalletErrorBoundary from "../components/WalletErrorBoundary";
+import "../shared/lib/wallet-provider.ts";
+import WalletErrorBoundary from "../shared/components/WalletErrorBoundary.tsx";
 
-import * as TanStackQueryProvider from "../integrations/tanstack-query/root-provider.tsx";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/shared/api/queryClient";
+
+import { AuthProvider } from "@/shared/api/authProvider";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "./styles.css";
 
 // Import i18n configuration
-import "../lib/i18n";
+import "../shared/lib/i18n.ts";
 
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
@@ -26,17 +28,17 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <WagmiProvider config={config}>
-        <TanStackQueryProvider.Provider>
+        <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-            <WalletErrorBoundary>
-              <RainbowKitProvider theme={darkTheme()}>
-                <AuthProvider>
+            <AuthProvider>
+              <WalletErrorBoundary>
+                <RainbowKitProvider theme={darkTheme()}>
                   <RouterProvider router={router} />
-                </AuthProvider>
-              </RainbowKitProvider>
-            </WalletErrorBoundary>
+                </RainbowKitProvider>
+              </WalletErrorBoundary>
+            </AuthProvider>
           </ThemeProvider>
-        </TanStackQueryProvider.Provider>
+        </QueryClientProvider>
       </WagmiProvider>
     </StrictMode>
   );

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { useProxyStats, useHasProxies } from '../model/selectors'
 import { BarChart3, Wifi, Users, Clock, Globe } from 'lucide-react'
 

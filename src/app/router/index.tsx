@@ -1,5 +1,5 @@
 import { createRouter } from "@tanstack/react-router";
-import * as TanStackQueryProvider from "../../integrations/tanstack-query/root-provider";
+import * as TanStackQueryProvider from "../../shared/api/queryClient";
 
 
 import { rootRoute } from "./root-route";
@@ -65,7 +65,7 @@ const routeTree = rootRoute.addChildren([
 export const router = createRouter({
   routeTree,
   context: {
-    ...TanStackQueryProvider.getContext(),
+    ...TanStackQueryProvider.queryClient,
   },
 });
 

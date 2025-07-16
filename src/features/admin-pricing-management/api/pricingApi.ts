@@ -1,16 +1,29 @@
-import { api } from '@/lib/api'
+import { apiClient } from '@/shared/api/apiClient'
 import type { Pricing, UpdatePricingData } from '../model/types'
 
 export const pricingApi = {
-  // Get current pricing
-  getCurrentPricing: async (): Promise<Pricing> => {
-    const response = await api.get('/pricing')
-    return response
+  // Получить все цены
+  getAll: (): Promise<Pricing[]> => {
+    return apiClient.get('/pricing')
   },
 
-  // Update current pricing (admin only)
-  updatePricing: async (data: UpdatePricingData): Promise<Pricing> => {
-    const response = await api.patch('/pricing', data)
-    return response
+  // Получить текущую цену
+  getCurrentPricing: (): Promise<Pricing> => {
+    return apiClient.get('/pricing')
+  },
+
+  // Получить цену по ID
+  getById: (id: number): Promise<Pricing | null> => {
+    return apiClient.get(`/pricing/${id}`)
+  },
+
+  // Обновить цену
+  update: (id: number, data: UpdatePricingData): Promise<Pricing> => {
+    return apiClient.patch(`/pricing/${id}`, data)
+  },
+
+  // Применить промокод
+  applyPromoCode: async (promoCode: string): Promise<{ discount: number }> => {
+    return apiClient.post('/pricing/apply-promo', { promoCode })
   }
 } 

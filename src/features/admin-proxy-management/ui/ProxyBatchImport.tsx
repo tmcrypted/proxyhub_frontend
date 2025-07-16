@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/shared/components/ui/button'
+import { Textarea } from '@/shared/components/ui/textarea'
+import { Input } from '@/shared/components/ui/input'
+import { Label } from '@/shared/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
+import { Alert, AlertDescription } from '@/shared/components/ui/alert'
 import { Upload, FileText, AlertCircle, CheckCircle, XCircle, X } from 'lucide-react'
 import { useProxyStore } from '../model/store'
 import type { Proxy } from '../model/types'
 import { COUNTRIES } from '../lib/constants'
-import { api } from '../../../lib/api'
+import { apiClient } from '@/shared/api/apiClient'
 
 type ProxyStatus = Proxy['proxyStatus']
 type ProxyType = Proxy['proxyType']
@@ -48,8 +48,8 @@ export const ProxyBatchImport = ({ onClose }: ProxyBatchImportProps) => {
 
   useEffect(() => {
     // Получить список веток
-    api.get('/branches').then((data) => {
-      setBranches(Array.isArray(data) ? data : [])
+    apiClient.get<Array<{ id: number; name: string }>>('/branches').then((response) => {
+      setBranches(response.data)
     })
   }, [])
 

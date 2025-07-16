@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { api } from '../../../lib/api'
+import { apiClient } from '@/shared/api/apiClient'
 import { Eye, EyeOff, Copy, Download, CheckSquare, Square, Wifi } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 
 // Debounce hook
 const useDebounce = (value: string, delay: number) => {
@@ -120,19 +120,24 @@ const UserProxies = () => {
     }
 
     useEffect(() => {
+        console.log('Initial data fetch useEffect triggered')
         fetchData()
-    }, [])
+    }, []) // Only run once on mount
 
+    // Initial proxies fetch
     useEffect(() => {
+        console.log('Initial proxies fetch useEffect triggered')
         fetchProxies()
-    }, [selectedOrderId])
+    }, []) // Only run once on mount
 
     useEffect(() => {
+        console.log('Filter and paginate useEffect triggered', { allProxies: allProxies.length, currentPage, searchTerm, statusFilter })
         filterAndPaginateProxies()
     }, [allProxies, currentPage, searchTerm, statusFilter])
 
     // Initialize default values if URL params are empty
     useEffect(() => {
+        console.log('URL params initialization useEffect triggered', { currentPage, searchTerm, statusFilter, selectedOrderId })
         if (currentPage === 1 && !searchTerm && statusFilter === 'all' && !selectedOrderId) {
             // URL params are at defaults, no need to update
             return
@@ -157,30 +162,45 @@ const UserProxies = () => {
     }, [searchTerm])
 
     const fetchData = async () => {
+        console.log('Fetching initial data...')
         try {
             // Загружаем заказы для фильтра
-            const ordersResponse = await api.orders.getMyOrders()
+            const ordersResponse = await apiClient.get<Order[]>('/orders/my')
+            console.log('Orders fetched successfully:', ordersResponse.length)
             setOrders(ordersResponse)
             
-            // Загружаем прокси
-            await fetchProxies()
+            // Прокси будут загружены в отдельном useEffect после загрузки заказов
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch data')
             console.error('Error fetching data:', err)
         }
     }
 
+    // Separate effect for fetching proxies when selectedOrderId changes
+    useEffect(() => {
+        console.log('Proxies fetch useEffect triggered', { selectedOrderId, ordersLength: orders.length })
+        // Always fetch proxies, regardless of orders length
+        fetchProxies()
+    }, [selectedOrderId])
+
     const fetchProxies = async () => {
+        console.log('Fetching proxies...', { selectedOrderId, currentLoading: loading })
         try {
             setLoading(true)
+            console.log('Set loading to true')
             setError(null)
-            const response = await api.proxies.getMyProxies(selectedOrderId)
+            const url = selectedOrderId ? `/proxies/my?orderId=${selectedOrderId}` : '/proxies/my'
+            console.log('Making request to:', url)
+            const response = await apiClient.get<Proxy[]>(url)
+            console.log('Proxies fetched successfully:', response.length)
             setAllProxies(response)
+            console.log('Set allProxies to:', response.length)
             // Don't reset current page here - let the URL parameter handling do it
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to fetch proxies')
             console.error('Error fetching proxies:', err)
+            setError(err instanceof Error ? err.message : 'Failed to fetch proxies')
         } finally {
+            console.log('Setting loading to false')
             setLoading(false)
         }
     }
@@ -298,6 +318,7 @@ const UserProxies = () => {
     }
 
     if (loading && allProxies.length === 0) {
+        console.log('Showing loading state - loading:', loading, 'allProxies.length:', allProxies.length)
         return (
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -350,6 +371,8 @@ const UserProxies = () => {
     }
 
     const totalPages = getTotalPages()
+    
+    console.log('UserProxies render - loading:', loading, 'allProxies.length:', allProxies.length, 'error:', error)
 
     return (
         <div className="space-y-6">

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from '@tanstack/react-router'
-import { api } from '../../../lib/api'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { ShoppingCart } from 'lucide-react'
+import { apiClient } from '@/shared/api/apiClient'
 
 // Interface based on backend Order model structure
 interface OrderProxy {
@@ -55,7 +55,7 @@ const UserOrders = () => {
         try {
             setLoading(true)
             setError(null)
-            const response = await api.orders.getMyOrders()
+            const response = await apiClient.get<Order[]>('/orders/my')
             setOrders(response)
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch orders')

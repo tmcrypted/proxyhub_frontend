@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/shared/components/ui/button'
 import { Edit, Trash2, User as UserIcon, Shield } from 'lucide-react'
 import type { User } from '../model/types'
 

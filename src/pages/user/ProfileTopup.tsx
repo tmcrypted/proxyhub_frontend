@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { api } from '../../lib/api'
+import { apiClient } from '@/shared/api/apiClient'
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select'
+} from '@/shared/components/ui/select'
 
 interface NowPaymentsCurrency {
     id: number
@@ -51,12 +51,12 @@ const ProfileTopup = ({ nowpaymentsId }: ProfileTopupProps) => {
         const fetchCurrencies = async () => {
             try {
                 setIsLoadingCurrencies(true)
-                const availableRes = await api.get('/payments/available-currencies')
+                const availableRes = await apiClient.get<{ selectedCurrencies: string[] }>('/payments/available-currencies')
                 const availableTickers = new Set(
-                    (availableRes.selectedCurrencies || []).map((t: string) => t.toLowerCase())
+                    (availableRes.data.selectedCurrencies || []).map((t: string) => t.toLowerCase())
                 )
-                const response = await api.get('/payments/full-currencies-list')
-                const data = response as NowPaymentsFullCurrenciesListResponse
+                const response = await apiClient.get<NowPaymentsFullCurrenciesListResponse>('/payments/full-currencies-list')
+                const data = response.data
                 const enabledCurrencies = data.currencies
                     .filter(
                         (currency: NowPaymentsCurrency) =>
@@ -90,12 +90,15 @@ const ProfileTopup = ({ nowpaymentsId }: ProfileTopupProps) => {
         try {
             setIsLoading(true)
             setError(null)
-            const response = await api.post('/payments/create', {
+            const response = await apiClient.post<{ paymentUrl: string }>('/payments/create', {
                 userId: nowpaymentsId,
                 amount: amountNum,
                 currency: selectedCurrency
             })
-            console.log('Payment created:', response)
+            console.log('Payment created:', response.data)
+            if (response.data.paymentUrl) {
+                window.open(response.data.paymentUrl, '_blank')
+            }
         } catch (err) {
             setError('Failed to create payment')
         } finally {

@@ -1,17 +1,21 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/shared/api/authStore'
 import { useDisconnect } from 'wagmi'
-import { authRequests } from '@/services/api/requests'
-import { Wallet, Clock, ShoppingCart, Users, Settings, LogOut, Wifi, Shield } from 'lucide-react'
+import { profileApi } from '@/entities/profile/api'
+import { Wallet, Clock, ShoppingCart, Users, Settings, LogOut, Wifi } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import useIsAdmin from '@/hooks/useIsAdmin'
+import { useProfileStore } from '@/entities/profile/model/store'
 
 const ProfileSidebar = () => {
     const { user, email } = useAuthStore()
     const { disconnect } = useDisconnect()
     const location = useLocation()
     const { t } = useTranslation()
-    const isAdmin = useIsAdmin()
+    // Use individual selectors instead of useProfileLogic to avoid multiple requests
+    const profile = useProfileStore((state: any) => state.profile)
+    const isAdmin = profile?.role === 'ADMIN'
+    const profileEmail = profile?.email
+    const profileAddress = profile?.address
 
     // Navigation items for regular users
     const userNavItems = [
@@ -40,7 +44,7 @@ const ProfileSidebar = () => {
             // First disconnect the wallet
             await disconnect()
             // Then logout from the backend
-            await authRequests.logout()
+            await profileApi.deleteAccount()
             // Finally clear the auth store
             useAuthStore.getState().logout()
         } catch (error) {
@@ -58,7 +62,7 @@ const ProfileSidebar = () => {
         <div className="w-full md:w-64 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md h-fit">
             <div className="mb-6">
                 <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('profile.loggedInAs')}</div>
-                <div className="font-medium truncate">{email || user?.address}</div>
+                <div className="font-medium truncate">{profileEmail || profileAddress || email || user?.address}</div>
                 {isAdmin && (
                     <div className="mt-1 text-xs font-semibold text-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-300 py-1 px-2 rounded">
                         {t('profile.administrator')}
@@ -96,4 +100,4 @@ const ProfileSidebar = () => {
     )
 }
 
-export default ProfileSidebar 
+export default ProfileSidebar

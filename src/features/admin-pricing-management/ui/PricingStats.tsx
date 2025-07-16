@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { DollarSign, Percent, TrendingUp, History } from 'lucide-react'
 import { useCurrentPricing, usePricingHistory } from '../model/selectors'
 

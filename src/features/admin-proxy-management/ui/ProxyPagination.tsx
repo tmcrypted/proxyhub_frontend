@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Button } from '@/shared/components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useProxyStore } from '../model/store'
 import { usePaginationInfo } from '../model/selectors'

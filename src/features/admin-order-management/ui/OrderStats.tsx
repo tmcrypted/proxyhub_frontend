@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { ShoppingCart, DollarSign, Clock, CheckCircle, XCircle } from 'lucide-react'
 import { useOrders } from '../model/selectors'
 

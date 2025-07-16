@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/shared/stores/authStore'
 
 const ProfileSettings = () => {
     const { t } = useTranslation()

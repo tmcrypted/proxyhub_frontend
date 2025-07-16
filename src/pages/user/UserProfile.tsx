@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from '@tanstack/react-router'
-import { useAuthStore } from '../../stores/authStore'
+import { useAuthStore } from '../../shared/stores/authStore'
 import { useDisconnect } from 'wagmi'
 import { authRequests } from '../../services/api/requests'
 import { Wallet, Clock, ShoppingCart, Users, Settings, LogOut, Wifi } from 'lucide-react'

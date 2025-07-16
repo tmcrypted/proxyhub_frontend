@@ -1,6 +1,6 @@
 import { createRoute } from "@tanstack/react-router";
 import { rootRoute } from "./root-route";
-import AuthGuard from "../../components/AuthGuard";
+import AuthGuard from "./AuthGuard";
 
 import Profile from "../../pages/Profile/Profile";
 import UserBalance from "../../pages/user/UserBalance";
